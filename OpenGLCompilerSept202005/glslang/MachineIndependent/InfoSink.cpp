@@ -33,6 +33,7 @@
 //
 
 #include "Include/InfoSink.h"
+#include <cstring>
 
 #ifdef _WIN32
     #include <windows.h>

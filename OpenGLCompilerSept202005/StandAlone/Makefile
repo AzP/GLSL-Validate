@@ -10,7 +10,7 @@ default: all
 all: StandAlone
 
 StandAlone: $(TARGETOBJECT) SHAREDOBJECT
-	$(CC) -g -o $@ $(TARGETOBJECT) -L $(LIBPATH) -lglslang -lpthread \
+	$(CC) -fPIC -g -o $@ $(TARGETOBJECT) -L $(LIBPATH) -lglslang -lpthread \
 	-lm -lstdc++
 
 SHAREDOBJECT:
@@ -34,7 +34,14 @@ depend:
 
 StandAlone.o: ./../glslang/Include/ShHandle.h
 StandAlone.o: ./../glslang/Public/ShaderLang.h
+StandAlone.o: ./../glslang/Include/ResourceLimits.h
 StandAlone.o: ./../glslang/Include/InfoSink.h ./../glslang/Include/Common.h
-StandAlone.o: ./../glslang/Include/PoolAlloc.h
-StandAlone.o: ./../glslang/Public/ShaderLang.h
-
+StandAlone.o: /usr/include/stdint.h /usr/include/features.h
+StandAlone.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+StandAlone.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+StandAlone.o: /usr/include/bits/wchar.h /usr/include/assert.h
+StandAlone.o: ./../glslang/Include/PoolAlloc.h /usr/include/math.h
+StandAlone.o: /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h
+StandAlone.o: /usr/include/bits/huge_vall.h /usr/include/bits/inf.h
+StandAlone.o: /usr/include/bits/nan.h /usr/include/bits/mathdef.h
+StandAlone.o: /usr/include/bits/mathcalls.h ./../glslang/Public/ShaderLang.h

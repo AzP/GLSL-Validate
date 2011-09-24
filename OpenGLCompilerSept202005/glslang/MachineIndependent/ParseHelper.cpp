@@ -303,7 +303,7 @@ bool TParseContext::lValueErrorCheck(int line, char* op, TIntermTyped* node)
     if (symNode != 0)
         symbol = symNode->getSymbol().c_str();
 
-    char* message = 0;
+    char const* message;
     switch (node->getQualifier()) {
     case EvqConst:          message = "can't modify a const";        break;
     case EvqConstReadOnly:  message = "can't modify a const";        break;
@@ -1128,7 +1128,7 @@ TIntermTyped* TParseContext::addConstructor(TIntermNode* node, const TType* type
         if (newNode) {
             p = sequenceVector.erase(p);
             p = sequenceVector.insert(p, newNode);
-				}
+        }
     }
 
     TIntermTyped* constructor = intermediate.setAggregateOperator(aggrNode, op, line);

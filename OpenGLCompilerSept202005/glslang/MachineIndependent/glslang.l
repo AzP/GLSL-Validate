@@ -56,8 +56,8 @@ O           [0-7]
 
 %option nounput 
 %{
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "ParseHelper.h"
 #include "glslang_tab.h"
 
@@ -67,7 +67,6 @@ O           [0-7]
 #endif
 
 int yy_input(char* buf, int max_size);
-TSourceLoc yylineno;
 
 #ifdef _WIN32
     extern int yyparse(TParseContext&);

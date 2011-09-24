@@ -11,7 +11,7 @@ libPreprocessor.a : $(OBJECTS)
 	ranlib $@
 
 %.o : %.c
-	$(CC) -c $<
+	$(CC) -c -fPIC $<
 
 #
 # Cleanup

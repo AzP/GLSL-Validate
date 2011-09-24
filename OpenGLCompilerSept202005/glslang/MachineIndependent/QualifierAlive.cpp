@@ -38,8 +38,6 @@ class TAliveTraverser : public TIntermTraverser {
 public:
     TAliveTraverser(TQualifier q) : TIntermTraverser(), found(false), qualifier(q)
     {
-        visitSymbol    = AliveSymbol;
-        visitSelection = AliveSelection;
         rightToLeft    = true;
     }
     bool wasFound() { return found; }

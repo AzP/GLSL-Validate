@@ -1,5 +1,6 @@
-INCLUDE = -I. -I.. -I../.. -I../Include -I../Public -I../OSDependent/Linux -I../../OGLCompilersDLL
+INCLUDE = -I. -I.. -I../.. -I../Include -I/usr/include/ -I../Public -I../OSDependent/Linux -I../../OGLCompilersDLL
 CC=g++
+DEFINE=-fPIC
 INCPREPROCESSOR=./preprocessor
 INCCODEGEN=./../GenericCodeGen
 INCOSDEPENDENT=./../OSDependent/Linux/
@@ -29,10 +30,10 @@ $(SHAREDOBJECT): Gen_glslang.o Gen_glslang_tab.o $(OBJECTS) \
 	$(CC) -fPIC -shared -lc -o $@ $(OBJECTS) $(LIBPREPROCESSOR) $(LIBCODEGEN) $(LIBOSDEPENDENT) $(LIBINITIALISATION) Gen_glslang.o Gen_glslang_tab.o
 
 Gen_glslang.o : Gen_glslang.cpp glslang_tab.h
-	$(CC) -c $(INCLUDE) Gen_glslang.cpp -o $@
+	$(CC) -fPIC -c $(INCLUDE) Gen_glslang.cpp -o $@
 
 Gen_glslang_tab.o : Gen_glslang_tab.cpp 
-	$(CC) -c $(INCLUDE) Gen_glslang_tab.cpp -o $@
+	$(CC) -fPIC -c $(INCLUDE) Gen_glslang_tab.cpp -o $@
 
 Gen_glslang.cpp: glslang.l
 	@echo Generating Gen_glslang.cpp
@@ -81,81 +82,143 @@ clean :
 	
 # DO NOT DELETE
 
-Gen_glslang.o: ParseHelper.h ../Include/ShHandle.h
-Gen_glslang.o: ../Public/ShaderLang.h ../Include/InfoSink.h
-Gen_glslang.o: ../Include/Common.h ../Include/PoolAlloc.h SymbolTable.h
-Gen_glslang.o: ../Include/Common.h ../Include/intermediate.h
-Gen_glslang.o: ../Include/Types.h ../Include/BaseTypes.h
-Gen_glslang.o: ../Include/ConstantUnion.h ../Include/InfoSink.h
-Gen_glslang.o: localintermediate.h ../Include/intermediate.h
-Gen_glslang.o: ../Public/ShaderLang.h glslang_tab.h ./unistd.h
-Gen_glslang.o: ./preprocessor/preprocess.h ./preprocessor/slglobals.h
-Gen_glslang.o: ./preprocessor/memory.h ./preprocessor/atom.h
-Gen_glslang.o: ./preprocessor/scanner.h ./preprocessor/parser.h
-Gen_glslang.o: ./preprocessor/cpp.h ./preprocessor/tokens.h
-Gen_glslang.o: ./preprocessor/symbols.h ./preprocessor/compile.h
-Gen_glslang_tab.o: SymbolTable.h ../Include/Common.h
-Gen_glslang_tab.o: ../Include/intermediate.h ../Include/Common.h
-Gen_glslang_tab.o: ../Include/PoolAlloc.h ../Include/Types.h
-Gen_glslang_tab.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
-Gen_glslang_tab.o: ../Include/InfoSink.h ParseHelper.h ../Include/ShHandle.h
-Gen_glslang_tab.o: ../Public/ShaderLang.h
-Gen_glslang_tab.o: ../Include/InfoSink.h localintermediate.h
-Gen_glslang_tab.o: ../Include/intermediate.h ../Public/ShaderLang.h
-Initialize.o: ../Include/intermediate.h Initialize.h
-Initialize.o: ../Include/ResourceLimits.h ../Include/Common.h
-Initialize.o: ../Include/PoolAlloc.h ../Include/ShHandle.h
-Initialize.o: ../Public/ShaderLang.h
-Initialize.o: ../Include/InfoSink.h SymbolTable.h ../Include/Common.h
-Initialize.o: ../Include/intermediate.h ../Include/Types.h
-Initialize.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
-Initialize.o: ../Include/InfoSink.h
-IntermTraverse.o: ../Include/intermediate.h
-Intermediate.o: ../Include/ShHandle.h
-Intermediate.o: ../Public/ShaderLang.h ../Include/InfoSink.h
-Intermediate.o: ../Include/Common.h ../Include/PoolAlloc.h
+Initialize.o: ../Include/intermediate.h ../Include/Common.h
+Initialize.o: /usr/include/stdint.h /usr/include/features.h
+Initialize.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+Initialize.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+Initialize.o: /usr/include/bits/wchar.h /usr/include/assert.h
+Initialize.o: ../Include/PoolAlloc.h ../Include/Types.h
+Initialize.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h Initialize.h
+Initialize.o: ../Include/ResourceLimits.h ../Include/ShHandle.h
+Initialize.o: ../Public/ShaderLang.h ../Include/ResourceLimits.h
+Initialize.o: ../Include/InfoSink.h /usr/include/math.h
+Initialize.o: /usr/include/bits/huge_val.h /usr/include/bits/huge_valf.h
+Initialize.o: /usr/include/bits/huge_vall.h /usr/include/bits/inf.h
+Initialize.o: /usr/include/bits/nan.h /usr/include/bits/mathdef.h
+Initialize.o: /usr/include/bits/mathcalls.h SymbolTable.h ../Include/Common.h
+Initialize.o: ../Include/intermediate.h ../Include/InfoSink.h
+IntermTraverse.o: ../Include/intermediate.h ../Include/Common.h
+IntermTraverse.o: /usr/include/stdint.h /usr/include/features.h
+IntermTraverse.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+IntermTraverse.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+IntermTraverse.o: /usr/include/bits/wchar.h /usr/include/assert.h
+IntermTraverse.o: ../Include/PoolAlloc.h ../Include/Types.h
+IntermTraverse.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
 Intermediate.o: localintermediate.h ../Include/intermediate.h
-Intermediate.o: ../Public/ShaderLang.h SymbolTable.h ../Include/Common.h
-Intermediate.o: ../Include/intermediate.h ../Include/Types.h
-Intermediate.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
-Intermediate.o: ../Include/InfoSink.h QualifierAlive.h RemoveTree.h
-ParseHelper.o: ParseHelper.h ../Include/ShHandle.h
-ParseHelper.o: ../Public/ShaderLang.h ../Include/InfoSink.h
-ParseHelper.o: ../Include/Common.h ../Include/PoolAlloc.h SymbolTable.h
-ParseHelper.o: ../Include/Common.h ../Include/intermediate.h
-ParseHelper.o: ../Include/Types.h ../Include/BaseTypes.h
-ParseHelper.o: ../Include/ConstantUnion.h ../Include/InfoSink.h
-ParseHelper.o: localintermediate.h ../Include/intermediate.h
-ParseHelper.o: ../Public/ShaderLang.h ../Include/InitializeParseContext.h
-ParseHelper.o: ../OSDependent/Linux/osinclude.h
+Intermediate.o: ../Include/Common.h /usr/include/stdint.h
+Intermediate.o: /usr/include/features.h /usr/include/sys/cdefs.h
+Intermediate.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+Intermediate.o: /usr/include/gnu/stubs-64.h /usr/include/bits/wchar.h
+Intermediate.o: /usr/include/assert.h ../Include/PoolAlloc.h
+Intermediate.o: ../Include/Types.h ../Include/BaseTypes.h
+Intermediate.o: ../Include/ConstantUnion.h ../Public/ShaderLang.h
+Intermediate.o: ../Include/ResourceLimits.h SymbolTable.h ../Include/Common.h
+Intermediate.o: ../Include/intermediate.h ../Include/InfoSink.h
+Intermediate.o: QualifierAlive.h RemoveTree.h /usr/include/limits.h
+Intermediate.o: /usr/include/bits/posix1_lim.h /usr/include/bits/local_lim.h
+Intermediate.o: /usr/include/linux/limits.h /usr/include/bits/posix2_lim.h
+ParseHelper.o: ParseHelper.h ../Include/ShHandle.h ../Public/ShaderLang.h
+ParseHelper.o: ../Include/ResourceLimits.h ../Include/InfoSink.h
+ParseHelper.o: ../Include/Common.h /usr/include/stdint.h
+ParseHelper.o: /usr/include/features.h /usr/include/sys/cdefs.h
+ParseHelper.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+ParseHelper.o: /usr/include/gnu/stubs-64.h /usr/include/bits/wchar.h
+ParseHelper.o: /usr/include/assert.h ../Include/PoolAlloc.h
+ParseHelper.o: /usr/include/math.h /usr/include/bits/huge_val.h
+ParseHelper.o: /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h
+ParseHelper.o: /usr/include/bits/inf.h /usr/include/bits/nan.h
+ParseHelper.o: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+ParseHelper.o: SymbolTable.h ../Include/Common.h ../Include/intermediate.h
+ParseHelper.o: ../Include/InfoSink.h localintermediate.h
+ParseHelper.o: ../Include/intermediate.h ../Include/Types.h
+ParseHelper.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
+ParseHelper.o: ../Include/InitializeParseContext.h
+ParseHelper.o: ../OSDependent/Linux/osinclude.h /usr/include/pthread.h
+ParseHelper.o: /usr/include/endian.h /usr/include/bits/endian.h
+ParseHelper.o: /usr/include/bits/byteswap.h /usr/include/sched.h
+ParseHelper.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+ParseHelper.o: /usr/include/time.h /usr/include/bits/sched.h
+ParseHelper.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h
+ParseHelper.o: /usr/include/semaphore.h /usr/include/sys/types.h
+ParseHelper.o: /usr/include/sys/select.h /usr/include/bits/select.h
+ParseHelper.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+ParseHelper.o: /usr/include/sys/sysmacros.h /usr/include/bits/semaphore.h
+ParseHelper.o: /usr/include/errno.h /usr/include/bits/errno.h
+ParseHelper.o: /usr/include/linux/errno.h /usr/include/asm/errno.h
+ParseHelper.o: /usr/include/asm-generic/errno.h
+ParseHelper.o: /usr/include/asm-generic/errno-base.h
 ParseHelper.o: ../Include/InitializeGlobals.h ../Include/PoolAlloc.h
-QualifierAlive.o: ../Include/intermediate.h
-RemoveTree.o: ../Include/intermediate.h RemoveTree.h
+QualifierAlive.o: ../Include/intermediate.h ../Include/Common.h
+QualifierAlive.o: /usr/include/stdint.h /usr/include/features.h
+QualifierAlive.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+QualifierAlive.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+QualifierAlive.o: /usr/include/bits/wchar.h /usr/include/assert.h
+QualifierAlive.o: ../Include/PoolAlloc.h ../Include/Types.h
+QualifierAlive.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
+RemoveTree.o: ../Include/intermediate.h ../Include/Common.h
+RemoveTree.o: /usr/include/stdint.h /usr/include/features.h
+RemoveTree.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+RemoveTree.o: /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h
+RemoveTree.o: /usr/include/bits/wchar.h /usr/include/assert.h
+RemoveTree.o: ../Include/PoolAlloc.h ../Include/Types.h
+RemoveTree.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h RemoveTree.h
 ShaderLang.o: SymbolTable.h ../Include/Common.h ../Include/intermediate.h
-ShaderLang.o: ../Include/Common.h ../Include/PoolAlloc.h ../Include/Types.h
-ShaderLang.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
 ShaderLang.o: ../Include/InfoSink.h ParseHelper.h ../Include/ShHandle.h
-ShaderLang.o: ../Public/ShaderLang.h
-ShaderLang.o: ../Include/InfoSink.h localintermediate.h
-ShaderLang.o: ../Include/intermediate.h ../Public/ShaderLang.h
-ShaderLang.o: ../Include/ResourceLimits.h Initialize.h
+ShaderLang.o: ../Public/ShaderLang.h ../Include/ResourceLimits.h
+ShaderLang.o: ../Include/InfoSink.h ../Include/Common.h /usr/include/stdint.h
+ShaderLang.o: /usr/include/features.h /usr/include/sys/cdefs.h
+ShaderLang.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+ShaderLang.o: /usr/include/gnu/stubs-64.h /usr/include/bits/wchar.h
+ShaderLang.o: /usr/include/assert.h ../Include/PoolAlloc.h
+ShaderLang.o: /usr/include/math.h /usr/include/bits/huge_val.h
+ShaderLang.o: /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h
+ShaderLang.o: /usr/include/bits/inf.h /usr/include/bits/nan.h
+ShaderLang.o: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+ShaderLang.o: localintermediate.h ../Include/intermediate.h
+ShaderLang.o: ../Include/Types.h ../Include/BaseTypes.h
+ShaderLang.o: ../Include/ConstantUnion.h
+ShaderLang.o: ../../OGLCompilersDLL/InitializeDll.h
+ShaderLang.o: ../OSDependent/Linux/osinclude.h /usr/include/pthread.h
+ShaderLang.o: /usr/include/endian.h /usr/include/bits/endian.h
+ShaderLang.o: /usr/include/bits/byteswap.h /usr/include/sched.h
+ShaderLang.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+ShaderLang.o: /usr/include/time.h /usr/include/bits/sched.h
+ShaderLang.o: /usr/include/bits/pthreadtypes.h /usr/include/bits/setjmp.h
+ShaderLang.o: /usr/include/semaphore.h /usr/include/sys/types.h
+ShaderLang.o: /usr/include/sys/select.h /usr/include/bits/select.h
+ShaderLang.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+ShaderLang.o: /usr/include/sys/sysmacros.h /usr/include/bits/semaphore.h
+ShaderLang.o: /usr/include/errno.h /usr/include/bits/errno.h
+ShaderLang.o: /usr/include/linux/errno.h /usr/include/asm/errno.h
+ShaderLang.o: /usr/include/asm-generic/errno.h
+ShaderLang.o: /usr/include/asm-generic/errno-base.h
+ShaderLang.o: ../Include/InitializeGlobals.h ../Include/PoolAlloc.h
+ShaderLang.o: Initialize.h ../Include/ResourceLimits.h
 SymbolTable.o: SymbolTable.h ../Include/Common.h ../Include/intermediate.h
-SymbolTable.o: ../Include/Common.h ../Include/PoolAlloc.h ../Include/Types.h
-SymbolTable.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
 SymbolTable.o: ../Include/InfoSink.h
 intermOut.o: localintermediate.h ../Include/intermediate.h
-intermOut.o: ../Public/ShaderLang.h SymbolTable.h ../Include/Common.h
-intermOut.o: ../Include/intermediate.h ../Include/Common.h
-intermOut.o: ../Include/PoolAlloc.h ../Include/Types.h ../Include/BaseTypes.h
-intermOut.o: ../Include/ConstantUnion.h ../Include/InfoSink.h
-intermOut.o: ../Include/ShHandle.h
-intermOut.o: ../Public/ShaderLang.h ../Include/InfoSink.h
-parseConst.o: ParseHelper.h ../Include/ShHandle.h
-parseConst.o: ../Public/ShaderLang.h ../Include/InfoSink.h
-parseConst.o: ../Include/Common.h ../Include/PoolAlloc.h SymbolTable.h
-parseConst.o: ../Include/Common.h ../Include/intermediate.h
-parseConst.o: ../Include/Types.h ../Include/BaseTypes.h
-parseConst.o: ../Include/ConstantUnion.h ../Include/InfoSink.h
-parseConst.o: localintermediate.h ../Include/intermediate.h
-parseConst.o: ../Public/ShaderLang.h
+intermOut.o: ../Include/Common.h /usr/include/stdint.h
+intermOut.o: /usr/include/features.h /usr/include/sys/cdefs.h
+intermOut.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+intermOut.o: /usr/include/gnu/stubs-64.h /usr/include/bits/wchar.h
+intermOut.o: /usr/include/assert.h ../Include/PoolAlloc.h ../Include/Types.h
+intermOut.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
+intermOut.o: ../Public/ShaderLang.h ../Include/ResourceLimits.h SymbolTable.h
+intermOut.o: ../Include/Common.h ../Include/intermediate.h
+intermOut.o: ../Include/InfoSink.h
+parseConst.o: ParseHelper.h ../Include/ShHandle.h ../Public/ShaderLang.h
+parseConst.o: ../Include/ResourceLimits.h ../Include/InfoSink.h
+parseConst.o: ../Include/Common.h /usr/include/stdint.h
+parseConst.o: /usr/include/features.h /usr/include/sys/cdefs.h
+parseConst.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+parseConst.o: /usr/include/gnu/stubs-64.h /usr/include/bits/wchar.h
+parseConst.o: /usr/include/assert.h ../Include/PoolAlloc.h
+parseConst.o: /usr/include/math.h /usr/include/bits/huge_val.h
+parseConst.o: /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h
+parseConst.o: /usr/include/bits/inf.h /usr/include/bits/nan.h
+parseConst.o: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+parseConst.o: SymbolTable.h ../Include/Common.h ../Include/intermediate.h
+parseConst.o: ../Include/InfoSink.h localintermediate.h
+parseConst.o: ../Include/intermediate.h ../Include/Types.h
+parseConst.o: ../Include/BaseTypes.h ../Include/ConstantUnion.h
 InfoSink.o: ../Include/InfoSink.h

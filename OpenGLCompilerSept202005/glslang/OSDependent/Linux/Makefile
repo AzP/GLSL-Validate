@@ -6,14 +6,14 @@
 #
 # Compilation related
 #
-INCLUDE = -I. -I../.. -I../../Include -I../../../OGLCompilersDLL 
+INCLUDE = -I. -I../.. -I../../Include -I../../../OGLCompilersDLL -I/usr/include
 WARNINGS = -Wall -Wwrite-strings -Wpointer-arith -Wcast-align -Wstrict-prototypes \
 	-Wnested-externs
 DEFINE = -Dlinux -D__i386__
   
 CPP = g++
-CPPOPTIONS = -O3 -Wno-deprecated -D_ALT_NS=1
-CPPOPTIONS = -g -Wno-deprecated -D_ALT_NS=1 
+CPPOPTIONS = -O3 
+CPPOPTIONS = -g -fPIC -shared
 CPPFLAGS = $(CPPOPTIONS) $(DEFINE) $(INCLUDE)
 
 #

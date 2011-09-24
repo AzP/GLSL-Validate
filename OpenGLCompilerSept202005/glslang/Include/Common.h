@@ -65,7 +65,7 @@
     #include <map>
     #include <list>
     #include <string>
-    #include <stdio.h>
+    #include <cstdio>
 
 //??#pragma warning(pop)
 
