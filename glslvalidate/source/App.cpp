@@ -47,8 +47,8 @@
 
 const wxCmdLineEntryDesc TApp::CommandLineDescription[] =
 {
-    {wxCMD_LINE_OPTION, "v", "vertex", "bypass the GUI, parse the specified vertex shader (wildcards are allowed), dump results to vertex.log"},
-    {wxCMD_LINE_OPTION, "f", "fragment", "bypass the GUI, parse the specified fragment shader (wildcards are allowed), dump results to fragment.log"},
+    {wxCMD_LINE_OPTION, (wxChar*)"v", (wxChar*)"vertex", (wxChar*)"bypass the GUI, parse the specified vertex shader (wildcards are allowed), dump results to vertex.log"},
+    {wxCMD_LINE_OPTION, (wxChar*)"f", (wxChar*)"fragment", (wxChar*)"bypass the GUI, parse the specified fragment shader (wildcards are allowed), dump results to fragment.log"},
     {wxCMD_LINE_NONE }
 };
 
@@ -58,17 +58,17 @@ bool TApp::OnInit()
     wxCmdLineParser parser(argc, argv);
     parser.SetDesc(CommandLineDescription);
     parser.Parse();
-    parser.Found("v", &vertfile);
-    parser.Found("f", &fragfile);
-    new TFrame("GLSL Syntax Validator", wxDefaultPosition, wxSize(500,500));
+    parser.Found((wxChar*)"v", &vertfile);
+    parser.Found((wxChar*)"f", &fragfile);
+    new TFrame((wxChar*)"GLSL Syntax Validator", wxDefaultPosition, wxSize(500,500));
     if (vertfile.empty() && fragfile.empty())
         frame->Show(true);
     else {
         SetTopWindow(frame);
         if (!vertfile.empty())
-            retval = frame->CompileVertex(vertfile, "vertex.log") ? 0 : 1;
+            retval = frame->CompileVertex(vertfile, (wxChar*)"vertex.log") ? 0 : 1;
         if (!fragfile.empty())
-            retval = frame->CompileFragment(fragfile, "fragment.log") ? 0 : 1;
+            retval = frame->CompileFragment(fragfile, (wxChar*)"fragment.log") ? 0 : 1;
         frame->Close();
     }
     SetTopWindow(frame);
@@ -81,9 +81,9 @@ void TApp::Errorf(const char* format, ...)
 
     va_list marker;
     va_start(marker, format);
-    message.PrintfV(format, marker);
+    message.PrintfV((const wxChar*)format, marker);
     frame->SetColor(const_cast<wxColour*>(wxRED));
-    frame->Printf(L"%s\n", message);
+    frame->Printf(L"%s\n", message.c_str());
     frame->SetColor(const_cast<wxColour*>(wxBLACK));
 }
 

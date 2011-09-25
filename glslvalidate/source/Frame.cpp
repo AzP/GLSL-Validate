@@ -21,7 +21,7 @@
 *     from this software without specific prior written permission.     *
 *                                                                       *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   *
-* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     *
+* wxT("AS IS") AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     *
 * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS     *
 * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE        *
 * COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, *
@@ -48,9 +48,11 @@
 #include "DropTarget.h"
 #include <wx/ffile.h>
 #include <fcntl.h>
-#include <io.h>
+#include <sys/io.h>
+#include <sys/types.h>
+#include <string>
 
-#define APP_VERSION "1.9"
+#define APP_VERSION wxT("1.9")
 
 BEGIN_EVENT_TABLE(TFrame, wxFrame)
 	EVT_SIZE(TFrame::OnSize)
@@ -74,7 +76,7 @@ TFrame::TFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	wxGetApp().SetFrame(this);
 
 	wxBoxSizer* vertical = new wxBoxSizer(wxVERTICAL);
-	text = new wxTextCtrl(this, Id::WidgetText, "", wxDefaultPosition, wxDefaultSize, wxTE_RICH | wxTE_RICH2 | wxTE_READONLY | wxTE_MULTILINE);
+	text = new wxTextCtrl(this, Id::WidgetText, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_RICH | wxTE_RICH2 | wxTE_READONLY | wxTE_MULTILINE);
 	vertical->Add(text, 1, wxALIGN_CENTRE_VERTICAL | wxEXPAND | wxALL);
 	text->SetBackgroundColour(*wxWHITE);
 
@@ -85,23 +87,23 @@ TFrame::TFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	wxMenuBar* menuBar = new wxMenuBar;
 
 	menu = new wxMenu;
-	menu->Append(Id::FileParseVertex, "Parse vertex shader(s)...");
-	menu->Append(Id::FileParseFragment, "Parse fragment shader(s)...");
-	menu->Append(Id::FileReparseCurrent, "Re-parse current shader(s)\tF5");
-	menu->Append(Id::FileClear, "Clear log");
-	menu->Append(Id::FileSave, "Save log...");
+	menu->Append(Id::FileParseVertex, wxT("Parse vertex shader(s)..."));
+	menu->Append(Id::FileParseFragment, wxT("Parse fragment shader(s)..."));
+	menu->Append(Id::FileReparseCurrent, wxT("Re-parse current shader(s)\tF5"));
+	menu->Append(Id::FileClear, wxT("Clear log"));
+	menu->Append(Id::FileSave, wxT("Save log..."));
 	menu->AppendSeparator();
-	menu->Append(Id::FileExit, "Exit\tQ");
-	menuBar->Append(menu, "File");
+	menu->Append(Id::FileExit, wxT("Exit\tQ"));
+	menuBar->Append(menu, wxT("File"));
 
 	menu = new wxMenu;
-	menu->Append(Id::HelpCommandLine, "Command line options...");
-	menu->Append(Id::HelpAbout, "About...");
-	menuBar->Append(menu, "Help");
+	menu->Append(Id::HelpCommandLine, wxT("Command line options..."));
+	menu->Append(Id::HelpAbout, wxT("About..."));
+	menuBar->Append(menu, wxT("Help"));
 
 	SetMenuBar(menuBar);
 	SetSizer(vertical);
-	SetIcon(wxIcon("3DLABS_ICON", wxBITMAP_TYPE_ICO_RESOURCE));
+	SetIcon(wxIcon(wxT("3DLABS_ICON"), wxBITMAP_TYPE_ICO_RESOURCE));
 
 	SetDropTarget( new TDropTarget(this) );
 }
@@ -120,13 +122,13 @@ void TFrame::OnHelpCommandLine(wxCommandEvent& event)
 void TFrame::OnHelpAbout(wxCommandEvent& event)
 {
 	wxMessageBox(
-		"GLSL Syntax Validator v" APP_VERSION "\n"
-		"Copyright © 2005 3Dlabs.  All rights reserved.\n\n"
-		"glslvalidate: a tool that checks shaders for valid syntax using the 3Dlabs open source GLSL parser.\n\n"
-		"GLSL parser source code is available at http://developer.3dlabs.com/downloads\n\n"
-		"For questions and feedback, go to http://www.3dlabs.com/contact\n\n"
-		"Thanks to Jordan Russell for InnoSetup.",
-		"about glslvalidate", wxOK | wxICON_INFORMATION, this);
+		wxT("GLSL Syntax Validator v") APP_VERSION wxT("\n")
+		wxT("Copyright Â© 2005 3Dlabs.  All rights reserved.\n\n")
+		wxT("glslvalidate: a tool that checks shaders for valid syntax using the 3Dlabs open source GLSL parser.\n\n")
+		wxT("GLSL parser source code is available at http://developer.3dlabs.com/downloads\n\n")
+		wxT("For questions and feedback, go to http://www.3dlabs.com/contact\n\n")
+		wxT("Thanks to Jordan Russell for InnoSetup."),
+		wxT("about glslvalidate"), wxOK | wxICON_INFORMATION, this);
 }
 
 void TFrame::OnFileExit(wxCommandEvent& event)
@@ -137,7 +139,7 @@ void TFrame::OnFileExit(wxCommandEvent& event)
 
 void TFrame::OnFileParseVertex(wxCommandEvent& event)
 {
-	wxFileDialog dialog(this, "Open vertex shader", "", "", "All (*.*)|*.*|Vertex shader (*.vert;*.v)|*.vert;*.v", wxFD_OPEN | wxFD_MULTIPLE);
+	wxFileDialog dialog(this, wxT("Open vertex shader"), wxT(""), wxT(""), wxT("All (*.*)|*.*|Vertex shader (*.vert;*.v)|*.vert;*.v"), wxFD_OPEN | wxFD_MULTIPLE);
 	if (dialog.ShowModal() == wxID_OK)
 	{
 		dialog.GetPaths(filenames);
@@ -151,7 +153,7 @@ void TFrame::OnFileParseVertex(wxCommandEvent& event)
 
 void TFrame::OnFileParseFragment(wxCommandEvent& event)
 {
-	wxFileDialog dialog(this, "Open fragment shader", "", "", "All (*.*)|*.*|Fragment shader (*.frag;*.f)|*.frag;*.f", wxFD_OPEN | wxFD_MULTIPLE);
+	wxFileDialog dialog(this, wxT("Open fragment shader"), wxT(""), wxT(""), wxT("All (*.*)|*.*|Fragment shader (*.frag;*.f)|*.frag;*.f"), wxFD_OPEN | wxFD_MULTIPLE);
 	if (dialog.ShowModal() == wxID_OK)
 	{
 		dialog.GetPaths(filenames);
@@ -189,11 +191,11 @@ void TFrame::Compile(const wxFileName& filename, EShLanguage language)
 {
 	SetColor(&MessageColor);
 	if (language == EShLangVertex)
-		Printf(L"Parsing vertex shader ");
+		Printf(wxT("Parsing vertex shader "));
 	else
-		Printf(L"Parsing fragment shader ");
+		Printf(wxT("Parsing fragment shader "));
 
-	Printf(L"'%s'....\n", filename.GetFullName());
+	Printf(L"'%s'....\n", filename.GetFullName().c_str());
 
 	ShInitialize();
 	ShHandle compiler = ShConstructCompiler(language, 0);
@@ -203,16 +205,18 @@ void TFrame::Compile(const wxFileName& filename, EShLanguage language)
 		return;
 	}
 
-	if (!Compile(compiler, filename.GetFullPath())) {
+	if (!Compile(compiler, filename.GetFullPath().c_str())) {
 		SetColor(&FailureColor);
-		text->AppendText("Failure.\n\n");
+		text->AppendText(wxT("Failure.\n\n"));
 
 		SetColor(const_cast<wxColour*>(wxBLACK));
-		text->AppendText(ShGetInfoLog(compiler));
-		text->AppendText("\n");
+
+                wxString tmpText(wxString::FromAscii(ShGetInfoLog(compiler)));
+		text->AppendText(tmpText);
+		text->AppendText(wxT("\n"));
 	} else {
 		SetColor(&SuccessColor);
-		text->AppendText("Success.\n\n");
+		text->AppendText(wxT("Success.\n\n"));
 		SetColor(const_cast<wxColour*>(wxBLACK));
 	}
 
@@ -221,7 +225,7 @@ void TFrame::Compile(const wxFileName& filename, EShLanguage language)
 
 void TFrame::OnFileSave(wxCommandEvent& event)
 {
-	wxString filename = wxFileSelector("Save log", "", "info.log", "", "Log file (*.log)|*.log", wxFD_SAVE);
+	wxString filename = wxFileSelector(wxT("Save log"), wxT(""), wxT("info.log"), wxT(""), wxT("Log file (*.log)|*.log"), wxFD_SAVE);
 	if (!filename.empty())
 		text->SaveFile(filename);
 }
@@ -246,17 +250,17 @@ bool TFrame::CompileVertex(const wxString& infile, const wxString& outfile, bool
 	bool success;
 	ShInitialize();
 	ShHandle compiler = ShConstructCompiler(EShLangVertex, 0);
-	wxFFile log(outfile, append ? "a" : "w");
-	log.Write("Compiling '" + infile + "'...\n");
+	wxFFile log(outfile, append ? wxT("a") : wxT("w"));
+	log.Write(wxT("Compiling '") + infile + wxT("'...\n"));
 
 	if (!Compile(compiler, infile)) {
-		log.Write("Compile failed.\n");
-		log.Write(ShGetInfoLog(compiler));
-		log.Write("\n");
+		log.Write(wxT("Compile failed.\n"));
+		log.Write(wxString::FromAscii(ShGetInfoLog(compiler)));
+		log.Write(wxT("\n"));
 		success = false;
 	} else {
-		log.Write("Success.\n");
-		log.Write("\n");
+		log.Write(wxT("Success.\n"));
+		log.Write(wxT("\n"));
 		success = true;
 	}
 	log.Close();
@@ -270,14 +274,14 @@ bool TFrame::CompileFragment(const wxString& infile, const wxString& outfile)
 	bool success;
 	ShInitialize();
 	ShHandle compiler = ShConstructCompiler(EShLangFragment, 0);
-	wxFFile log(outfile, "w");
+	wxFFile log(outfile, wxT("w"));
 
 	if (!Compile(compiler, infile)) {
-		log.Write("Compile failed.\n");
-		log.Write(ShGetInfoLog(compiler));
+		log.Write(wxT("Compile failed.\n"));
+		log.Write(wxString::FromAscii(ShGetInfoLog(compiler)));
 		success = false;
 	} else {
-		log.Write("Success.\n");
+		log.Write(wxT("Success.\n"));
 		success = true;
 	}
 
@@ -308,17 +312,17 @@ bool TFrame::Compile(ShHandle compiler, const wxString& filename)
 {
 	int file, size;
 	char* buffer;
-	const char* pFilename = filename.c_str();
+	const char* pFilename = filename.mb_str();
 
-	file = _open(pFilename, _O_RDONLY);
+	file = open(pFilename, O_RDONLY);
 	if (file == -1)
 		return false;
 
-	size = _lseek(file, 0, SEEK_END);
+	size = lseek(file, 0, SEEK_END);
 	buffer = (char*) malloc(size + 1);
-	_lseek(file, 0, SEEK_SET);
-	size = _read(file, buffer, size);
-	_close(file);
+	lseek(file, 0, SEEK_SET);
+	size = read(file, buffer, size);
+	close(file);
 	buffer[size] = 0;
 
 	TBuiltInResource resources;

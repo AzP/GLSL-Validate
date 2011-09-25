@@ -67,20 +67,20 @@ bool TDropTarget::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString &filenam
       //
       // Common vertex shader extensions
       //
-      if (ext == ".vert" ||
-          ext == ".vsh"  ||
-		  ext == ".vs")
+      if (ext == wxT(".vert") ||
+          ext == wxT(".vsh")  ||
+		  ext == wxT(".vs"))
       {
         frame->Compile(filename, EShLangVertex);
       }
       //
       // Common fragment shader extensions
       //
-      else if (ext == ".frag" ||
-               ext == ".fsh"  ||
-			   ext == ".psh"  ||
-			   ext == ".ps"   ||
-			   ext == ".fs")
+      else if (ext == wxT(".frag") ||
+               ext == wxT(".fsh")  ||
+			   ext == wxT(".psh")  ||
+			   ext == wxT(".ps")   ||
+			   ext == wxT(".fs"))
       {
         frame->Compile(filename, EShLangFragment);
       }
