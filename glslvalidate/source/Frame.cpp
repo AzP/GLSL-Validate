@@ -46,7 +46,9 @@
 #include "Tables.h"
 #include "App.h"
 #include "DropTarget.h"
+#include "labs_icon.xpm"
 #include <wx/ffile.h>
+#include <wx/gdicmn.h>
 #include <fcntl.h>
 #include <sys/io.h>
 #include <sys/types.h>
@@ -101,9 +103,11 @@ TFrame::TFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	menu->Append(Id::HelpAbout, wxT("About..."));
 	menuBar->Append(menu, wxT("Help"));
 
-	SetMenuBar(menuBar);
-	SetSizer(vertical);
-	SetIcon(wxIcon(wxT("3DLABS_ICON"), wxBITMAP_TYPE_ICO_RESOURCE));
+        SetMenuBar(menuBar);
+        SetSizer(vertical);
+        wxIcon icon(wxICON(labs));
+        SetIcon(icon);
+        //SetIcon(wxIcon(wxT("3DLABS_ICON"), wxBITMAP_TYPE_ICO_RESOURCE));
 
 	SetDropTarget( new TDropTarget(this) );
 }
