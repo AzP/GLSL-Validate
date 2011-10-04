@@ -35,4 +35,8 @@
  ehthumbs.db
  Icon?
  Thumbs.db
+
+ # Editor generated files #
+ ##########################
  *.bak
+ *.swp
