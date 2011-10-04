@@ -47,31 +47,31 @@
 
 const wxCmdLineEntryDesc TApp::CommandLineDescription[] =
 {
-    {wxCMD_LINE_OPTION, (wxChar*)"v", (wxChar*)"vertex", (wxChar*)"bypass the GUI, parse the specified vertex shader (wildcards are allowed), dump results to vertex.log"},
-    {wxCMD_LINE_OPTION, (wxChar*)"f", (wxChar*)"fragment", (wxChar*)"bypass the GUI, parse the specified fragment shader (wildcards are allowed), dump results to fragment.log"},
+    {wxCMD_LINE_OPTION, wxT("v"), wxT("vertex"), wxT("bypass the GUI, parse the specified vertex shader (wildcards are allowed), dump results to vertex.log")},
+    {wxCMD_LINE_OPTION, wxT("f"), wxT("fragment"), wxT("bypass the GUI, parse the specified fragment shader (wildcards are allowed), dump results to fragment.log")},
     {wxCMD_LINE_NONE }
 };
 
 bool TApp::OnInit()
 {
-    retval = 0;
+    m_retval = 0;
     wxCmdLineParser parser(argc, argv);
     parser.SetDesc(CommandLineDescription);
-    parser.Parse();
-    parser.Found((wxChar*)"v", &vertfile);
-    parser.Found((wxChar*)"f", &fragfile);
+    m_retval = parser.Parse();
+    parser.Found((wxChar*)"v", &m_vertfile);
+    parser.Found((wxChar*)"f", &m_fragfile);
     new TFrame((wxChar*)"GLSL Syntax Validator", wxDefaultPosition, wxSize(500,500));
-    if (vertfile.empty() && fragfile.empty())
-        frame->Show(true);
+    if (m_vertfile.empty() && m_fragfile.empty())
+        m_frame->Show(true);
     else {
-        SetTopWindow(frame);
-        if (!vertfile.empty())
-            retval = frame->CompileVertex(vertfile, (wxChar*)"vertex.log") ? 0 : 1;
-        if (!fragfile.empty())
-            retval = frame->CompileFragment(fragfile, (wxChar*)"fragment.log") ? 0 : 1;
-        frame->Close();
+        SetTopWindow(m_frame);
+        if (!m_vertfile.empty())
+            m_retval = m_frame->CompileVertex(m_vertfile, (wxChar*)"vertex.log") ? 0 : 1;
+        if (!m_fragfile.empty())
+            m_retval = m_frame->CompileFragment(m_fragfile, (wxChar*)"fragment.log") ? 0 : 1;
+        m_frame->Close();
     }
-    SetTopWindow(frame);
+    SetTopWindow(m_frame);
     return true;
 }
 
@@ -82,9 +82,11 @@ void TApp::Errorf(const char* format, ...)
     va_list marker;
     va_start(marker, format);
     message.PrintfV((const wxChar*)format, marker);
-    frame->SetColor(const_cast<wxColour*>(wxRED));
-    frame->Printf(L"%s\n", message.c_str());
-    frame->SetColor(const_cast<wxColour*>(wxBLACK));
+    m_frame->SetColor(const_cast<wxColour*>(wxRED));
+    m_frame->Printf(L"%s\n", message.c_str());
+    const char* tmp = message.mb_str();
+    printf("%s\n", tmp);
+    m_frame->SetColor(const_cast<wxColour*>(wxBLACK));
 }
 
 IMPLEMENT_APP(TApp)

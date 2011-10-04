@@ -52,15 +52,15 @@ class TFrame;
 class TApp : public wxApp {
   public:
     bool OnInit();
-    void SetFrame(TFrame* frame) { this->frame = frame; }
+    void SetFrame(TFrame* frame) { m_frame = frame; }
     void Errorf(const char* format, ...);
-    int OnExit() { return retval; }
+    int OnExit() { return m_retval; }
     static const wxCmdLineEntryDesc CommandLineDescription[];
   private:
-    int retval;
-    wxString vertfile;
-    wxString fragfile;
-    TFrame* frame;
+    int m_retval;
+    wxString m_vertfile;
+    wxString m_fragfile;
+    TFrame* m_frame;
 };
 
 DECLARE_APP(TApp)
