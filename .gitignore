@@ -39,4 +39,7 @@
  # Editor generated files #
  ##########################
  *.bak
- *.swp
+ .*.swp
+
+ # Hidden files #
+ .*
