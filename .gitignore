@@ -6,11 +6,14 @@
 *.exe
 *.o
 *.so
+*.a
 GLSLValidate
 StandAlone
 
 # Generated source #
 Gen_*.cpp
+glslang.output
+glslang_tab.h
 
 # Packages #
 ############
