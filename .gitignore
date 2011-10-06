@@ -6,6 +6,8 @@
  *.exe
  *.o
  *.so
+ GLSLValidate
+ StandAlone
 
  # Generated source #
  Gen_*.cpp
