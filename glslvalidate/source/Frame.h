@@ -59,11 +59,12 @@ public:
 	void OnHelpAbout(wxCommandEvent& event);
 	void OnHelpCommandLine(wxCommandEvent& event);
 	void Compile(const wxFileName& filename, EShLanguage language);
+	int Compile(void* compiler, const wxString& filename);
 	bool CompileVertex(const wxString& infile, const wxString& outfile, bool append = false);
 	bool CompileFragment(const wxString& infile, const wxString& outfile);
 	void Printf(const wchar_t* format, ...);
 	void SetColor(wxColour* color);
-	static bool Compile(void* compiler, const wxString& filename);
+	void GenerateResources(TBuiltInResource& resources);
 private:
 	wxTextCtrl* text;
 	wxArrayString filenames;

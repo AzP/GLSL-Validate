@@ -212,13 +212,19 @@ void TFrame::Compile(const wxFileName& filename, EShLanguage language)
     ShInitialize();
     ShHandle compiler = ShConstructCompiler(language, 0);
 
-    if (!compiler) {
+    if (!compiler)
+    {
         wxGetApp().Errorf("Unable to construct compiler.\n");
         return;
     }
 
-    if (!Compile(compiler, filename.GetFullPath().c_str())) {
+    int compileResult = Compile(compiler, filename.GetFullPath().c_str());
+    if (compileResult == 0) {
+
         SetColor(&FailureColor);
+        if (compileResult == -1)
+            text->AppendText(wxT("Unable to find file:") + filename.GetFullPath() + wxT("\n"));
+
         text->AppendText(wxT("Failure.\n\n"));
 
         SetColor(const_cast<wxColour*>(wxBLACK));
@@ -233,6 +239,29 @@ void TFrame::Compile(const wxFileName& filename, EShLanguage language)
     }
 
     ShDestruct(compiler);
+}
+
+int TFrame::Compile(ShHandle compiler, const wxString& filename)
+{
+    int file, size;
+    char* buffer;
+
+    file = open(filename.fn_str(), O_RDONLY);
+    if (file == -1)
+        return -1;
+
+    size = lseek(file, 0, SEEK_END);
+    buffer = (char*) malloc(size + 1);
+    lseek(file, 0, SEEK_SET);
+    size = read(file, buffer, size);
+    close(file);
+    buffer[size] = 0;
+
+    TBuiltInResource resources;
+    GenerateResources(resources);
+    bool retval = ShCompile(compiler, &buffer, 1, EShOptNone, &resources, EDebugOpNone) ? true : false;
+    free(buffer);
+    return retval;
 }
 
 void TFrame::OnFileSave(wxCommandEvent& event)
@@ -304,7 +333,7 @@ bool TFrame::CompileFragment(const wxString& infile, const wxString& outfile)
 //
 // Set up the per compile resources
 //
-void GenerateResources(TBuiltInResource& resources)
+void TFrame::GenerateResources(TBuiltInResource& resources)
 {    
     resources.maxLights = 32;
     resources.maxClipPlanes = 6;
@@ -319,29 +348,4 @@ void GenerateResources(TBuiltInResource& resources)
     resources.maxFragmentUniformComponents = 4096;
     resources.maxDrawBuffers = 32;
 }
-
-bool TFrame::Compile(ShHandle compiler, const wxString& filename)
-{
-    int file, size;
-    char* buffer;
-    const char* pFilename = filename.mb_str();
-
-    file = open(pFilename, O_RDONLY);
-    if (file == -1)
-        return false;
-
-    size = lseek(file, 0, SEEK_END);
-    buffer = (char*) malloc(size + 1);
-    lseek(file, 0, SEEK_SET);
-    size = read(file, buffer, size);
-    close(file);
-    buffer[size] = 0;
-
-    TBuiltInResource resources;
-    GenerateResources(resources);
-    bool retval = ShCompile(compiler, &buffer, 1, EShOptNone, &resources, EDebugOpNone) ? true : false;
-    free(buffer);
-    return retval;
-}
-
 // vim: set sw=4 ts=4 et ic ai:

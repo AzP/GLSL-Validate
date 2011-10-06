@@ -1,6 +1,6 @@
 INCLUDE = -I. -I.. -I../.. -I../Include -I/usr/include/ -I../Public -I../OSDependent/Linux -I../../OGLCompilersDLL
 CC=g++
-DEFINE=-fPIC
+DEFINE=-fPIC -g3
 INCPREPROCESSOR=./preprocessor
 INCCODEGEN=./../GenericCodeGen
 INCOSDEPENDENT=./../OSDependent/Linux/

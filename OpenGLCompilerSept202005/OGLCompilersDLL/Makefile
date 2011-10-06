@@ -4,8 +4,8 @@ WARNINGS = -Wall -Wwrite-strings -Wpointer-arith -Wcast-align -Wstrict-prototype
 DEFINE = -Dlinux -D__i386__
   
 CPP = g++
-CPPOPTIONS = -O3 -fPIC #-Wno-deprecated -D_ALT_NS=1
-CPPOPTIONS = -g -fPIC #-Wno-deprecated -D_ALT_NS=1 
+#CPPOPTIONS = -O3 -fPIC -Wno-deprecated -D_ALT_NS=1
+CPPOPTIONS = -g3 -fPIC -Wno-deprecated -D_ALT_NS=1 
 CPPFLAGS = $(CPPOPTIONS) $(DEFINE) $(INCLUDE)
 
 #

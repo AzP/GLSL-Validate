@@ -1,4 +1,4 @@
-CC = g++
+CC = g++ -g3
 
 OBJECTS = CodeGen.o Link.o
 AR=ar

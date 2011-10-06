@@ -66,9 +66,9 @@ bool TApp::OnInit()
     else {
         SetTopWindow(m_frame);
         if (!m_vertfile.empty())
-            m_retval = m_frame->CompileVertex(m_vertfile, (wxChar*)"vertex.log") ? 0 : 1;
+            m_retval = m_frame->CompileVertex(m_vertfile, wxT("vertex.log")) ? 0 : 1;
         if (!m_fragfile.empty())
-            m_retval = m_frame->CompileFragment(m_fragfile, (wxChar*)"fragment.log") ? 0 : 1;
+            m_retval = m_frame->CompileFragment(m_fragfile, wxT("fragment.log")) ? 0 : 1;
         m_frame->Close();
     }
     SetTopWindow(m_frame);

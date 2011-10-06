@@ -36,6 +36,7 @@
 #include "Include/InitializeParseContext.h"
 #include "osinclude.h"
 #include <stdarg.h>
+#include <string.h>
 ///////////////////////////////////////////////////////////////////////
 //
 // Sub- vector and matrix fields
@@ -204,11 +205,12 @@ void C_DECL TParseContext::error(TSourceLoc nLine, const char *szReason, const c
                                  const char *szExtraInfoFormat, ...)
 {
     char szExtraInfo[400];
+	memset( szExtraInfo, 0, 400 );
     va_list marker;
     
     va_start(marker, szExtraInfoFormat);
     
-    _vsnprintf(szExtraInfo, sizeof(szExtraInfo), szExtraInfoFormat, marker);
+    vsnprintf(szExtraInfo, sizeof(szExtraInfo), szExtraInfoFormat, marker);
     
     /* VC++ format: file(linenum) : error #: 'token' : extrainfo */
     infoSink.info.prefix(EPrefixError);
@@ -303,7 +305,7 @@ bool TParseContext::lValueErrorCheck(int line, char* op, TIntermTyped* node)
     if (symNode != 0)
         symbol = symNode->getSymbol().c_str();
 
-    char const* message;
+    char* message = 0;
     switch (node->getQualifier()) {
     case EvqConst:          message = "can't modify a const";        break;
     case EvqConstReadOnly:  message = "can't modify a const";        break;

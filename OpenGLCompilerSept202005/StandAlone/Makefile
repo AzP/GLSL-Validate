@@ -7,6 +7,9 @@ TARGETOBJECT=StandAlone.o
 
 default: all
 
+debug: CC += -ggdb -ggdb3
+debug: all
+
 all: StandAlone
 
 StandAlone: $(TARGETOBJECT) SHAREDOBJECT

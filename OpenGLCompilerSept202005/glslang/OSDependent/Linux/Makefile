@@ -12,8 +12,8 @@ WARNINGS = -Wall -Wwrite-strings -Wpointer-arith -Wcast-align -Wstrict-prototype
 DEFINE = -Dlinux -D__i386__
   
 CPP = g++
-CPPOPTIONS = -O3 
-CPPOPTIONS = -g -fPIC -shared
+#CPPOPTIONS = -O3 
+CPPOPTIONS = -g3 -fPIC -shared
 CPPFLAGS = $(CPPOPTIONS) $(DEFINE) $(INCLUDE)
 
 #
