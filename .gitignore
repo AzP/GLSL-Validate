@@ -7,8 +7,9 @@
 *.o
 *.so
 *.a
-GLSLValidate
+glslvalidate
 StandAlone
+Release/
 
 # Generated source #
 Gen_*.cpp

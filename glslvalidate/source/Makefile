@@ -1,6 +1,7 @@
 
 CXX=g++ $(CFLAGS)
 LIBPATH=./../../OpenGLCompilerSept202005/glslang/MachineIndependent/lib
+INSTALLLIBPATH=./
 INCLUDEDIRS=-I./../../OpenGLCompilerSept202005/ $(shell wx-config --cppflags) -I/usr/X11R6/include $(shell pkg-config gtk+-2.0 --cflags)
 LIBS=$(shell wx-config --libs)
 CXXSOURCES=App.cpp Frame.cpp Tables.cpp DropTarget.cpp
@@ -8,17 +9,18 @@ CXXOBJECTS=$(CXXSOURCES:.cpp=.o)
 CXXFLAGS=-DESRI_UNIX $(INCLUDEDIRS)
 CXXOPTS=-fPIC -Wall -pedantic
 
-TARGETOBJECT=GLSLValidate
+TARGETOBJECT=glslvalidate
 
 default: all
 
 debug: CXX += -ggdb -ggdb3
 debug: all
+debug: INSTALLLIBPATH=./../../OpenGLCompilerSept202005/glslang/MachineIndependent/lib
 
 all: $(TARGETOBJECT)
 
 $(TARGETOBJECT): $(CXXOBJECTS)
-	$(CXX) -o $@ $(CXXOBJECTS) $(CXXOPTS) -L$(LIBPATH) $(LIBS) $(INCLUDEDIRS) -lglslang -lm -lstdc++ -Wl,-rpath=${PWD}/$(LIBPATH)
+	$(CXX) -o $@ $(CXXOBJECTS) $(CXXOPTS) -L$(LIBPATH) $(LIBS) $(INCLUDEDIRS) -lglslang -lm -lstdc++ -Wl,-rpath=$(INSTALLLIBPATH)
 
 #
 # Cleanup

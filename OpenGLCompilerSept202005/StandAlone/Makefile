@@ -1,6 +1,7 @@
 CC=g++
 OBJECTPATH=./../glslang/MachineIndependent
 LIBPATH=./../glslang/MachineIndependent/lib
+INSTALLLIBPATH=./
 SRCS=StandAlone.cpp
 
 TARGETOBJECT=StandAlone.o
@@ -9,12 +10,12 @@ default: all
 
 debug: CC += -ggdb -ggdb3
 debug: all
+debug: INSTALLLIBPATH=./../glslang/MachineIndependent/lib
 
 all: StandAlone
 
 StandAlone: $(TARGETOBJECT) SHAREDOBJECT
-	$(CC) -fPIC -g -o $@ $(TARGETOBJECT) -L $(LIBPATH) -lglslang -lpthread \
-	-lm -lstdc++
+	$(CC) -fPIC -g -o $@ $(TARGETOBJECT) -L $(LIBPATH) -lglslang -lpthread -lm -lstdc++ -Wl,-rpath=$(INSTALLLIBPATH)
 
 SHAREDOBJECT:
 	cd $(OBJECTPATH); make all
@@ -32,7 +33,7 @@ clean :
 
 depend:
 	cd $(OBJECTPATH); make depend
-	makedepend -Y -- $(SRCS)
+	makedepend -Y -- %.cpp
 # DO NOT DELETE
 
 StandAlone.o: ./../glslang/Include/ShHandle.h
