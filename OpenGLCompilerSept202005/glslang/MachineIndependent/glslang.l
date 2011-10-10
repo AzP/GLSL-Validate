@@ -67,6 +67,7 @@ O           [0-7]
 #endif
 
 int yy_input(char* buf, int max_size);
+TSourceLoc yylineno;
 
 #ifdef _WIN32
     extern int yyparse(TParseContext&);
