@@ -39,7 +39,7 @@
 * Author:  Philip Rideout and Joshua Doss                               *
 * Community Contributor(s):  Sebastian Schuberth                        *
 * Last Changed Date: 01/04/2006                                         *
-************************************************************************/
+*************************git***********************************************/
 
 #ifndef FRAME_H
 #define FRAME_H

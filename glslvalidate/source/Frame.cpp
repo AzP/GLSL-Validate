@@ -50,7 +50,13 @@
 #include <wx/ffile.h>
 #include <wx/gdicmn.h>
 #include <fcntl.h>
+
+#ifdef __WINDOWS__
+#include <io.h>
+#else
 #include <sys/io.h>
+#endif
+
 #include <sys/types.h>
 #include <string>
 
@@ -246,7 +252,11 @@ int TFrame::Compile(ShHandle compiler, const wxString& filename)
     int file, size;
     char* buffer;
 
+#ifdef __WINDOWS__
+    file = open(filename.mb_str(), O_RDONLY);
+#else
     file = open(filename.fn_str(), O_RDONLY);
+#endif
     if (file == -1)
         return -1;
 
