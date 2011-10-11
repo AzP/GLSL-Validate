@@ -20,6 +20,8 @@
 *.sdf
 *.opensdf
 *.unsuccessfulbuild
+*UpgradeReport*
+*UpgradeLog*
 ipch/
 obj/
 [Bb]in
@@ -49,7 +51,14 @@ _ReSharper*/
 *.a
 glslvalidate
 StandAlone
+
+# Directories
+!glslvalidate/
 Release/
+UserM_Debug
+wxMSW*/
+wxWidgets*/
+vs7.0/
 
 # Generated source #
 Gen_*.cpp
