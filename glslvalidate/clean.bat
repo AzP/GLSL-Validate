@@ -1,4 +1,4 @@
-cd vs7.0
+cd vs10.0
 call clean
 cd ..
 del *.bak /s
