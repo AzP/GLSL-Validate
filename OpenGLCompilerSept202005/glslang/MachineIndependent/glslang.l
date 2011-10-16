@@ -64,10 +64,11 @@ O           [0-7]
 /* windows only pragma */
 #ifdef _MSC_VER
 #pragma warning(disable : 4102)
+// Don't use in Linux, doesn't compile
+TSourceLoc yylineno;
 #endif
 
 int yy_input(char* buf, int max_size);
-TSourceLoc yylineno;
 
 #ifdef _WIN32
     extern int yyparse(TParseContext&);
