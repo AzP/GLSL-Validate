@@ -1,7 +1,7 @@
 How to build glslvalidate
 -------------------------
 
-This code is tested/developed with MS VisualStudio.net v7.0 2002.
+This code is tested/developed with MS VisualStudio 2010.
 
 1) In VS2010, open "OpenGLCompilerXXXX\StandAlone.sln" and build "glslang".
 
